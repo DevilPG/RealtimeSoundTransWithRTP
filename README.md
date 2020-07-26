@@ -9,3 +9,5 @@ RTP协议和RTCP控制协议一起使用，是一种基于UDP的无连接的传�
 1、首先建立收发端的会话，调用Jlibrtp库的实时传输会话类RTPSession，该类可以创建一个RTP会话，并设置传输的RTP端口和RTCP端口，以及与RTP包的相关的时间戳数据等。
 
 2、然后通过RTPSessionRegister方法用于添加RTP会话的参与者，同时开启接收包的AppCallerThread线程类，其run方法调用回调函数receiveData，开始接收RTP包，receiveData函数会去掉RTP包头，直接将RTP负载存入缓存，之后再进行分包的判断。
+
+注：本仓库中仅上传了实现相关的Java源代码，项目环境为eclipse 4.2.0，需要自行下载jlibrtp
