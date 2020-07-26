@@ -1,2 +1,11 @@
 # RealtimeSoundTransWithRTP
 基于RTP技术的实时音频传输系统
+
+我们项目中对音频信号的传输是通过RTP实现的。RTP全名是Real-time Transport Protocol（实时传输协议）。它是IETF提出的一个标准，对应的RFC文档为RFC3550（RFC1889为其过期版本）。RFC3550不仅定义了RTP，而且定义了配套的相关协议RTCP（Real-time Transport Control Protocol，即实时传输控制协议）。
+RTP协议详细说明了在互联网上传输音频和视频的标准数据包格式，常用于流媒体系统中，是一个多播协议但也可以用于单播应用中，非常符合我们项目的需求。
+RTP协议和RTCP控制协议一起使用，是一种基于UDP的无连接的传输协议。RTP为Internet上端到端的实时传输提供时间信息和流同步，但并不保证服务质量，服务质量由RTCP来提供。
+
+我们使用的jlibrtp库中实现RTP的过程如下：
+1、首先建立收发端的会话，调用Jlibrtp库的实时传输会话类RTPSession，该类可以创建一个RTP会话，并设置传输的RTP端口和RTCP端口，以及与RTP包的相关的时间戳数据等。
+
+2、然后通过RTPSessionRegister方法用于添加RTP会话的参与者，同时开启接收包的AppCallerThread线程类，其run方法调用回调函数receiveData，开始接收RTP包，receiveData函数会去掉RTP包头，直接将RTP负载存入缓存，之后再进行分包的判断。
